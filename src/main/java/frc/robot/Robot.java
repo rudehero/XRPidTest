@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
     averageerror = (lefterror + righterror)/2;
 
     leftoutputSpeed = kP * lefterror;
-    rightoutputSpeed = kP  *righterror;
+    rightoutputSpeed = kP  * righterror;
     averageoutputSpeed = (leftoutputSpeed + rightoutputSpeed)/2;
 
     leftMotor.set(leftoutputSpeed);
@@ -124,24 +124,26 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic(){
-   SmartDashboard.putNumber("leftEncoder value", m_leftEncoder.get());
-   SmartDashboard.putNumber("rightEncoder value", m_rightEncoder.get());
+    SmartDashboard.putNumber("currentSetPoint", setpoint);
+    SmartDashboard.putNumber("LastPoint", lastpoint);
+    SmartDashboard.putNumber("rangeFindDist", currentRange);
 
-   SmartDashboard.putNumber("leftsensorPosition value", leftsensorPosition);
-   SmartDashboard.putNumber("rightsensorPosition value", rightsensorPosition);
-   SmartDashboard.putNumber("averagesensorPosition", averagesensorPosition);
+    SmartDashboard.putNumber("leftEncoder value", m_leftEncoder.get());
+    SmartDashboard.putNumber("rightEncoder value", m_rightEncoder.get());
 
-   SmartDashboard.putNumber("lefterror value", lefterror);
-   SmartDashboard.putNumber("righterror value", righterror);
-   SmartDashboard.putNumber("averageerror", averageerror);
+    SmartDashboard.putNumber("leftsensorPosition value", leftsensorPosition);
+    SmartDashboard.putNumber("rightsensorPosition value", rightsensorPosition);
+    SmartDashboard.putNumber("averagesensorPosition", averagesensorPosition);
+    SmartDashboard.putNumber("lefterror value", lefterror);
+    SmartDashboard.putNumber("righterror value", righterror);
+    SmartDashboard.putNumber("averageerror", averageerror);
 
-   SmartDashboard.putNumber("leftoutputSpeed value", leftoutputSpeed);
-   SmartDashboard.putNumber("rightoutputSpeed value", rightoutputSpeed);
-   SmartDashboard.putNumber("outputSpeed", averageoutputSpeed);
+    SmartDashboard.putNumber("leftoutputSpeed value", leftoutputSpeed);
+    SmartDashboard.putNumber("rightoutputSpeed value", rightoutputSpeed);
+    SmartDashboard.putNumber("outputSpeed", averageoutputSpeed);
 
-   SmartDashboard.putNumber("rangeFindDist", currentRange);
-   SmartDashboard.putNumber("reflectSensor_LEFT", reflectSen.getLeftReflectanceValue());
-   SmartDashboard.putNumber("reflectSensor_RIGHT", reflectSen.getRightReflectanceValue());
+    SmartDashboard.putNumber("reflectSensor_LEFT", reflectSen.getLeftReflectanceValue());
+    SmartDashboard.putNumber("reflectSensor_RIGHT", reflectSen.getRightReflectanceValue());
    
    
   }
