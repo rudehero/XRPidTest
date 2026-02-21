@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
 
     //check for possible collision and stop if too close
     currentRange = rangeFinder.getDistanceInches();
-    if(currentRange <= 4){
+    if(currentRange <= 4 && setpoint != 0){
       setpoint = lastpoint;
     }
   
@@ -100,7 +100,7 @@ public class Robot extends TimedRobot {
     averagesensorPosition = (leftsensorPosition + rightsensorPosition)/2; 
 
     //record where the xrp was prior to updating output speed
-    lastpoint = (int)(averagesensorPosition / kDriveTick2Inch);
+    lastpoint = (int)(averagesensorPosition);
 
     lefterror = setpoint - leftsensorPosition;
     righterror = setpoint - rightsensorPosition;
