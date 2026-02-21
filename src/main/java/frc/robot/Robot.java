@@ -41,9 +41,12 @@ public class Robot extends TimedRobot {
     private final XRPReflectanceSensor reflectSen = new XRPReflectanceSensor();
 
       
-     
+    //from documentation/frc-docs/docs/xrp-robot/getting-to-know-xrp.html
+    //wheel diameter = 60mm (2.3622”)
+    //encoder tick count per revolution = 585
     private final double kDriveTick2Inch = Math.PI * 2.3622/585;
 
+    //error correction coeffecient
     final double kP = 0.045;
 
     private int setpoint = 0;
@@ -64,24 +67,15 @@ public class Robot extends TimedRobot {
     //setting starting value to max; 4000mm or 157.4803 inches
     private double currentRange = 157.4803;
 
-
-  
-
-
   public Robot() {
     rightMotor.setInverted(true);
   }
 
-
-
   @Override
   public void autonomousInit() {
     m_leftEncoder.reset();
-    m_rightEncoder.reset();
-
-  
+    m_rightEncoder.reset();  
   }
-
   
   @Override
   public void autonomousPeriodic() {
@@ -118,7 +112,6 @@ public class Robot extends TimedRobot {
 
     leftMotor.set(leftoutputSpeed);
     rightMotor.set(rightoutputSpeed);
-
     
   }
 
@@ -157,12 +150,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-  
-   
-
     dDrive.arcadeDrive(-joy.getLeftY(),-joy.getRightX());
-
-  
 
   }
   
