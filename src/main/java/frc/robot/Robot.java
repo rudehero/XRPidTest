@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     private final Encoder m_leftEncoder = new Encoder(4, 5);
     private final Encoder m_rightEncoder = new Encoder(6, 7);
 
-    private final XRPRangefinder rangeFind = new XRPRangefinder();
+    private final XRPRangefinder rangeFinder = new XRPRangefinder();
     private final XRPReflectanceSensor reflectSen = new XRPReflectanceSensor();
 
       
@@ -46,10 +46,11 @@ public class Robot extends TimedRobot {
 
     final double kP = 0.045;
 
-    private double setpoint = 0;
+    private int setpoint = 0;
+    private int lastpoint = 0;
 
-    private double leftsensorPosition =0;
-    private double rightsensorPosition =0;
+    private double leftsensorPosition = 0;
+    private double rightsensorPosition = 0;
     private double averagesensorPosition = 0;
 
     private double lefterror = 0;
@@ -57,8 +58,11 @@ public class Robot extends TimedRobot {
     private double averageerror = 0;
 
     private double leftoutputSpeed = 0;
-    private double rightoutputSpeed =0;
-    private double averageoutputSpeed =0;
+    private double rightoutputSpeed = 0;
+    private double averageoutputSpeed = 0;
+
+    //setting starting value to max; 4000mm or 157.4803 inches
+    private double currentRange = 157.4803;
 
 
   
@@ -82,16 +86,27 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 
-      if (joy.getAButton()){
+    //head to goal if a button pressed
+    //head back to start if b button pressed
+    if (joy.getAButtonPressed()){
         setpoint = 36;
-    } else{
+    } else if (joy.getBButtonPressed()){
         setpoint = 0;   
+    }
+
+    //check for possible collision and stop if too close
+    currentRange = rangeFinder.getDistanceInches();
+    if(currentRange <= 4){
+      setpoint = lastpoint;
     }
   
 
     leftsensorPosition = m_leftEncoder.get() * kDriveTick2Inch;
     rightsensorPosition = m_rightEncoder.get() * kDriveTick2Inch;
     averagesensorPosition = (leftsensorPosition + rightsensorPosition)/2; 
+
+    //record where the xrp was prior to updating output speed
+    lastpoint = (int)(averagesensorPosition / kDriveTick2Inch);
 
     lefterror = setpoint - leftsensorPosition;
     righterror = setpoint - rightsensorPosition;
@@ -124,7 +139,7 @@ public class Robot extends TimedRobot {
    SmartDashboard.putNumber("rightoutputSpeed value", rightoutputSpeed);
    SmartDashboard.putNumber("outputSpeed", averageoutputSpeed);
 
-   SmartDashboard.putNumber("rangeFindDist", rangeFind.getDistanceInches());
+   SmartDashboard.putNumber("rangeFindDist", currentRange);
    SmartDashboard.putNumber("reflectSensor_LEFT", reflectSen.getLeftReflectanceValue());
    SmartDashboard.putNumber("reflectSensor_RIGHT", reflectSen.getRightReflectanceValue());
    
