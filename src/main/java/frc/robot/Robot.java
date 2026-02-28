@@ -154,6 +154,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic(){
+    SmartDashboard.putBoolean("followingLine", followLine)
     SmartDashboard.putNumber("currentSetPoint", setpoint);
     SmartDashboard.putNumber("LastPoint", lastpoint);
     SmartDashboard.putNumber("rangeFindDist", currentRange);
